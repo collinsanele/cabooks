@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Tangerine'>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family:'Times new roman';
+      background-color:black;
+      text-align:center;
+      color:gold;
+      font-size:15px;
+    }
+    button {
+      border-radius:10px;
+      background-color:yellow;
+      color:green;
+      width:85px;
+      font-family:'Times New Roman';
+      outline:none;
+    }
+    h3{
+      text-decoration:none;
+      font-size:18px;
+    }
+    
+    #inner {
+      width:300px;
+    }
+    
+    #inner2 {
+      width:300px;
+    }
+    
+    input {
+      border-radius:10px;
+      height:25px;
+      border:none;
+      font-size:16;
+      outline:none;
+      padding-left:10px;
+    }
+    
+    img {
+      border-radius:10px;
+    }
+    
+  </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <title>HTML</title>
+  
+  <!-- HTML -->
+  
+</head>
+
+<body>
+  <h3>Collins Book Search</h3>
+  <img name='slide' width='300' height='180'>
+  </img>
+  <p>
+    <strong>Search for book(s) by title or by author but not by both.</strong>
+  </p>
+  <p>
+    Enter book name  
+  </p>
+  <p>
+    <input id='inner' value=""></input>
+  </p>
+  <p>
+    Enter name of author
+  </p>
+  <p>
+    <input id='inner2' value=''></input>
+  </p>
+  <p>
+    <button id='button'>Search</button>
+    <button id='clear'>Clear</button>
+  </p>
+  <p id='para'>
+  </p>
+  <p>
+  </p>
+  <!-- Project -->
+</body>
+<script src="js/bootstrap.min.js"></script>
+<script>
+  var i=0;
+  var time = 3000;
+  var images = ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpjDBNfPjXIb5BhBGZ3z_bvSYbdsm2NcGWsQAXAzklflDamIY',
+               'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpf4__tsGCFc5q3ck-gQuzLZ-Epr-M0_Fl2lDJcZ3uygZklkO-P2-D_GmPyA',
+               'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT21I-OKvZey4ki6V-Rx2MJ8wYfXJvnoyNfiPwY3O6UmKdl8Cw',
+               'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTy265xTqZxSOIIpIkcUPdedJuz9RDZCYTpbSwW9PUuf3XNTg',
+               'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS-tLVUETDtPsXcsaekPbuWD6wJXEqfratHh6usJfgUP5RiYWIh']
+               
+               
+  function changeImg(){
+    document.slide.src = images[i];
+    if (i < images.length-1){
+      i++;
+    }
+    else{
+      i=0;
+    }
+    setTimeout('changeImg()', time);
+    
+  }
+  window.onload = changeImg;
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var input1 = document.getElementById('inner');
+  var input2 = document.getElementById('inner2');
+  var p = document.getElementById('para');
+  p.style.fontFamily = 'Tangerine';
+  p.style.fontSize= '29px'
+  var button = document.getElementById('button');
+  var btnClear = document.getElementById('clear');
+  btnClear.addEventListener('click', function(){p.innerHTML = ' ';
+       container = ' ';
+  })
+  var image = document.getElementById('pic');
+  button.addEventListener('click', fetch);
+  function fetch(){
+    var container = ' '
+    var xmlhttp = new XMLHttpRequest()
+    xmlhttp.onreadystatechange = function(){
+      if (this.readyState==4 && this.status == 200){
+        result = this.responseText;
+        result1 = JSON.parse(result);
+        //alert(result);
+        alert('Done! Scroll Down To Read');
+        }
+        for (var x=0; x<result1.items.length-1; x++){
+        container += '<br>'+ 'Author: '+ result1.items[x]['volumeInfo']['authors']+'<br>'+ 'Title: '+ result1.items[x]['volumeInfo']['title']+'<br>'+'AverageRating: '+ result1.items[x]['volumeInfo']['averageRating']+'<br>'+'Category: ' +result1.items[x]['volumeInfo']['categories']+'<br>'+'Description: '+ result1.items[x]['volumeInfo']['description']+
+        '<br>'+ '<img src='+result1.items[x]['volumeInfo']['imageLinks']['thumbnail']+'/>'+'<br><br>';
+        }
+        
+        p.innerHTML = container;
+        container = ' '
+        image.src = display;
+      }
+      var url = 'https://www.googleapis.com/books/v1/volumes?q='
+      if (input2.value.length < 1){
+        url = url+input1.value+'+intitle';}
+      else {
+        url = url+input2.value+'+inauthor';
+      }
+      xmlhttp.open('GET',url, true);
+      xmlhttp.send();
+    }
+    
+    
+    
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</script>
+</html>
